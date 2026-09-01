@@ -1,1 +1,26 @@
-<p>consulta-lotes works!</p>
+<div class="page-container">
+
+    <header class="page-header">
+        <div class="breadcrumb">
+            <span class="link">Início</span> > <span>Outros Créditos/Débitos</span>
+        </div>
+        <h2>Outros Créditos/Débitos</h2>
+    </header>
+
+    <app-lote-filtros (aoPesquisar)="pesquisar($event)"></app-lote-filtros>
+
+    <div class="action-bar">
+        <button mat-stroked-button>Confirmar</button>
+        <button mat-stroked-button>Enviar</button>
+        <button mat-stroked-button>Visualizar Justificativa</button>
+
+        <button mat-flat-button class="btn-incluir" (click)="abrirModalIncluir()">Incluir</button>
+
+        <button mat-stroked-button [disabled]="!apenasUmLoteSelecionado">Alterar</button>
+        <button mat-stroked-button [disabled]="!apenasUmLoteSelecionado">Excluir</button>
+        <button mat-stroked-button [disabled]="!apenasUmLoteSelecionado">Visualizar</button>
+    </div>
+
+    <app-lote-tabela [lotes]="lotes" (selecaoAlterada)="atualizarSelecao($event)"></app-lote-tabela>
+
+</div>
