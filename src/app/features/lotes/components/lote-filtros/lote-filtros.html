@@ -1,0 +1,77 @@
+<mat-accordion>
+    <!-- Painel expandido por padrão na busca -->
+    <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                FILTROS PESQUISAR LOTE OUTROS CRÉDITOS/DÉBITOS
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <form [formGroup]="formFiltros" (ngSubmit)="emitirPesquisa()" class="filtros-grid">
+
+            <!-- Campos de Texto Simples -->
+            <div class="coluna-principal">
+                <mat-form-field appearance="outline">
+                    <mat-label>Instituição Resp.</mat-label>
+                    <input matInput formControlName="instituicaoResp" placeholder="Ex: 0001 - SICOOB">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Instituição</mat-label>
+                    <input matInput formControlName="instituicao" placeholder="Ex: 0002 - SICOOB CENTRAL">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Situação Lote</mat-label>
+                    <mat-select formControlName="situacaoLote">
+                        @for (situacao of situacoes; track situacao) {
+                        <mat-option [value]="situacao">{{ situacao }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!-- Campos de Faixa (De/Até) -->
+            <div class="coluna-secundaria">
+                <div class="faixa-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>ID Lote (De)</mat-label>
+                        <input matInput type="number" formControlName="idLoteDe">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>ID Lote (Até)</mat-label>
+                        <input matInput type="number" formControlName="idLoteAte">
+                    </mat-form-field>
+                </div>
+
+                <div class="faixa-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Valor Lote (De)</mat-label>
+                        <input matInput type="number" formControlName="valorLoteDe">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Valor Lote (Até)</mat-label>
+                        <input matInput type="number" formControlName="valorLoteAte">
+                    </mat-form-field>
+                </div>
+
+                <!-- Date Picker com faixa de datas (Requisito obrigatório)[cite: 1] -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Data Entrada (De/Até)</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate formControlName="dataEntradaDe" placeholder="Data inicial">
+                        <input matEndDate formControlName="dataEntradaAte" placeholder="Data final">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+            </div>
+
+            <!-- Ações do formulário -->
+            <div class="acoes-container">
+                <!-- O botão aciona o servicio mock aplicando os filtros informados[cite: 1] -->
+                <button mat-flat-button color="primary" type="submit">Pesquisar</button>
+            </div>
+        </form>
+    </mat-expansion-panel>
+</mat-accordion>
