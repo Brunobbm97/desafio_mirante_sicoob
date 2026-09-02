@@ -1,1 +1,81 @@
-<p>modal-lancamento works!</p>
+<h2 mat-dialog-title>INCLUIR LANÇAMENTO</h2>
+
+<mat-dialog-content class="modal-body">
+    <form [formGroup]="formLancamento" class="formulario-lancamento">
+
+        <!-- Seção Conta Corrente[cite: 1] -->
+        <div class="secao-form">
+            <h3>Conta Corrente</h3>
+
+            <div class="linha-busca">
+                <mat-form-field appearance="outline" class="campo-conta">
+                    <mat-label>Conta Corrente *</mat-label>
+                    <input matInput formControlName="contaCorrente">
+                    <!-- Validação customizada -->
+                    @if(formLancamento.get('contaCorrente')?.hasError('contaInvalida')) {
+                    <mat-error>Conta deve ter min 5 dígitos numéricos</mat-error>
+                    }
+                </mat-form-field>
+
+                <button mat-icon-button type="button" (click)="buscarConta()" class="btn-lupa"
+                    aria-label="Buscar conta">
+                    <mat-icon>search</mat-icon>
+                </button>
+                <span class="nome-titular">{{ nomeTitularEncontrado }}</span>
+            </div>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Valor *</mat-label>
+                <input matInput type="number" formControlName="valor" min="0.01">
+                @if(formLancamento.get('valor')?.hasError('min')) {
+                <mat-error>O valor deve ser maior que zero.</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Histórico *</mat-label>
+                <mat-select formControlName="historico">
+                    @for (hist of historicos; track hist) {
+                    <mat-option [value]="hist">{{ hist }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <mat-checkbox formControlName="estorno" class="campo-checkbox">Estorno</mat-checkbox>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Documento *</mat-label>
+                <input matInput formControlName="documento">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Descrição</mat-label>
+                <textarea matInput formControlName="descricao" rows="3"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Situação</mat-label>
+                <input matInput formControlName="situacao">
+            </mat-form-field>
+        </div>
+
+        <!-- Seção Documento CSC[cite: 1] -->
+        <div class="secao-form secao-csc">
+            <h3>Documento CSC</h3>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>PA *</mat-label>
+                <mat-select formControlName="pa">
+                    @for (pa of pas; track pa) {
+                    <mat-option [value]="pa">{{ pa }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="rodape-modal">
+    <button mat-button (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" class="btn-salvar" (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

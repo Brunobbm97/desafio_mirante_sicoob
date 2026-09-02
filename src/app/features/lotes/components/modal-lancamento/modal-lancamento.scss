@@ -1,0 +1,72 @@
+.modal-body {
+    padding: 16px 24px;
+    min-width: 500px;
+}
+
+.formulario-lancamento {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.secao-form {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    margin-bottom: 8px;
+
+    h3 {
+        position: absolute;
+        top: -12px;
+        left: 16px;
+        background: white;
+        padding: 0 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        margin: 0;
+    }
+}
+
+.linha-busca {
+    display: flex;
+    align-items: flex-start;
+    /* Permite que o erro cresça sem desalinhamento */
+    gap: 8px;
+    margin-bottom: 8px;
+    /* Respiro entre os campos */
+    margin-top: 8px;
+
+    .campo-conta {
+        width: 200px;
+        /* margin-bottom foi removido para liberar espaço para o mat-error */
+    }
+
+    .btn-lupa {
+        margin-top: 4px;
+        /* Alinha visualmente a lupa com o input */
+    }
+
+    .nome-titular {
+        font-size: 14px;
+        color: #666;
+        margin-left: 8px;
+        margin-top: 16px;
+        /* Alinha o texto com a linha central do input */
+    }
+}
+
+.campo-checkbox {
+    margin-bottom: 16px;
+    display: block;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.btn-salvar {
+    background-color: #00796b;
+    color: white;
+}
