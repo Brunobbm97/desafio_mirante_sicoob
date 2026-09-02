@@ -28,11 +28,9 @@ import { FiltrosPesquisaLote } from '../../../../core/models/contabil.model';
   styleUrl: './lote-filtros.scss'
 })
 export class LoteFiltrosComponent {
-  // Emite os valores do formulário para o componente pai (container)
   @Output() aoPesquisar = new EventEmitter<FiltrosPesquisaLote>();
 
   formFiltros: FormGroup;
-  // Opções para o select de Situação Lote
   situacoes = ['Todas', 'Aberto', 'Enviado', 'Confirmado'];
 
   constructor(private fb: FormBuilder) {

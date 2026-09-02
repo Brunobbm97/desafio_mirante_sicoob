@@ -15,11 +15,10 @@ import { Lote } from '../../../../core/models/lote';
 })
 export class LoteTabelaComponent implements AfterViewInit {
 
-  // Intercepta a chegada de novos lotes e atualiza a grid e a seleção simultaneamente
   @Input() set lotes(dados: Lote[]) {
     this.dataSource.data = dados;
-    this.selecao.clear(); // Limpa os checkboxes visualmente
-    this.selecaoAlterada.emit([]); // Avisa o pai que ninguém está selecionado
+    this.selecao.clear();
+    this.selecaoAlterada.emit([]);
   }
 
   @Output() selecaoAlterada = new EventEmitter<Lote[]>();
@@ -62,10 +61,4 @@ export class LoteTabelaComponent implements AfterViewInit {
     this.selecaoAlterada.emit(this.selecao.selected);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-
-    if (changes['lotes'] && this.lotes) {
-      this.dataSource.data = this.lotes;
-    }
-  }
 }
