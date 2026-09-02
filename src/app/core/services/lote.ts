@@ -15,20 +15,69 @@ export class LoteService {
   constructor() { }
 
   pesquisarLotes(filtros: FiltrosPesquisaLote): Observable<Lote[]> {
-    return of(this.lotes).pipe(delay(800));
+    // Começamos com a lista completa
+    let lotesFiltrados = [...this.lotes];
+
+    // Se não houver filtros, retorna tudo
+    if (!filtros) {
+      return of(lotesFiltrados).pipe(delay(800));
+    }
+
+    // Filtro 1: Situação do Lote
+    if (filtros.situacaoLote && filtros.situacaoLote !== 'Todas') {
+      lotesFiltrados = lotesFiltrados.filter(l => l.situacaoLote === filtros.situacaoLote);
+    }
+
+    // Filtro 2: Faixa de ID do Lote
+    if (filtros.idLoteDe) {
+      lotesFiltrados = lotesFiltrados.filter(l => l.idLote >= filtros.idLoteDe!);
+    }
+    if (filtros.idLoteAte) {
+      lotesFiltrados = lotesFiltrados.filter(l => l.idLote <= filtros.idLoteAte!);
+    }
+
+    // Filtro 3: Faixa de Valor
+    if (filtros.valorLoteDe) {
+      lotesFiltrados = lotesFiltrados.filter(l => l.valor >= filtros.valorLoteDe!);
+    }
+    if (filtros.valorLoteAte) {
+      lotesFiltrados = lotesFiltrados.filter(l => l.valor <= filtros.valorLoteAte!);
+    }
+
+    // Filtro 4: Faixa de Data de Entrada
+    if (filtros.dataEntradaDe) {
+      // Zeramos as horas para comparar apenas a data pura
+      const dataDe = new Date(filtros.dataEntradaDe).setHours(0, 0, 0, 0);
+      lotesFiltrados = lotesFiltrados.filter(l => new Date(l.dataEntrada).setHours(0, 0, 0, 0) >= dataDe);
+    }
+    if (filtros.dataEntradaAte) {
+      const dataAte = new Date(filtros.dataEntradaAte).setHours(23, 59, 59, 999);
+      lotesFiltrados = lotesFiltrados.filter(l => new Date(l.dataEntrada).getTime() <= dataAte);
+    }
+
+    return of(lotesFiltrados).pipe(delay(800));
   }
 
-
   incluirLancamento(idLote: number, lancamento: Lancamento): Observable<boolean> {
-    const lote = this.lotes.find(l => l.idLote === idLote);
-    if (lote) {
-      if (!lote.lancamentos) lote.lancamentos = [];
+    const index = this.lotes.findIndex(l => l.idLote === idLote);
 
-      lote.lancamentos.push({ ...lancamento, id: Date.now() });
-      lote.quantLancamentos = lote.lancamentos.length;
+    if (index !== -1) {
+      const loteAtualizado = { ...this.lotes[index] };
+      const lancamentos = loteAtualizado.lancamentos ? [...loteAtualizado.lancamentos] : [];
+
+      lancamentos.push({ ...lancamento, id: Date.now() });
+
+      loteAtualizado.lancamentos = lancamentos;
+
+      // CORREÇÃO: Incrementa o valor existente em vez de pegar o length do array
+      loteAtualizado.quantLancamentos = loteAtualizado.quantLancamentos + 1;
+
+      this.lotes[index] = loteAtualizado;
+      this.lotes = [...this.lotes];
 
       return of(true).pipe(delay(500));
     }
+
     return of(false).pipe(delay(500));
   }
 }

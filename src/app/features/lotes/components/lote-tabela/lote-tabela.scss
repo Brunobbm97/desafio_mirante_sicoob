@@ -1,0 +1,29 @@
+.tabela-container {
+    overflow-x: auto;
+    margin-top: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+table {
+    width: 100%;
+}
+
+/* Estilo inspirado na paleta de cores da imagem de referência[cite: 1] */
+th.mat-header-cell {
+    background-color: #00363a;
+    /* Verde petróleo escuro */
+    color: white;
+    font-weight: 500;
+}
+
+/* Destaca a linha selecionada */
+.linha-selecionada {
+    background-color: rgba(0, 150, 136, 0.08);
+    /* Verde translúcido */
+}
+
+/* Altera a cor do checkbox no cabeçalho escuro para melhor contraste */
+::ng-deep th.mat-header-cell .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate)~.mdc-checkbox__background {
+    border-color: rgba(255, 255, 255, 0.7) !important;
+}

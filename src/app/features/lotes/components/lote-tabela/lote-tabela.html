@@ -1,1 +1,77 @@
-<p>lote-tabela works!</p>
+<div class="tabela-container">
+    <table mat-table [dataSource]="dataSource">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? alternarTodos() : null"
+                    [checked]="selecao.hasValue() && todosSelecionados()"
+                    [indeterminate]="selecao.hasValue() && !todosSelecionados()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? alternarLinha(row) : null"
+                    [checked]="selecao.isSelected(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <!-- ID Lote -->
+        <ng-container matColumnDef="idLote">
+            <th mat-header-cell *matHeaderCellDef> ID Lote </th>
+            <td mat-cell *matCellDef="let element"> {{element.idLote}} </td>
+        </ng-container>
+
+        <!-- Data Entrada -->
+        <ng-container matColumnDef="dataEntrada">
+            <th mat-header-cell *matHeaderCellDef> Data Entrada </th>
+            <td mat-cell *matCellDef="let element"> {{element.dataEntrada | date:'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+        <!-- Valor (Requisito formato monetário pt-BR)[cite: 1] -->
+        <ng-container matColumnDef="valor">
+            <th mat-header-cell *matHeaderCellDef> Valor </th>
+            <td mat-cell *matCellDef="let element"> {{element.valor | currency:'BRL':'symbol':'1.2-2'}} </td>
+        </ng-container>
+
+        <!-- Quantidade de Lançamentos -->
+        <ng-container matColumnDef="quantLancamentos">
+            <th mat-header-cell *matHeaderCellDef> Quant. Lançamentos </th>
+            <td mat-cell *matCellDef="let element"> {{element.quantLancamentos}} </td>
+        </ng-container>
+
+        <!-- Usuário Registro -->
+        <ng-container matColumnDef="usuarioRegistro">
+            <th mat-header-cell *matHeaderCellDef> Usuário Registro </th>
+            <td mat-cell *matCellDef="let element"> {{element.usuarioRegistro}} </td>
+        </ng-container>
+
+        <!-- Usuário Aprovação -->
+        <ng-container matColumnDef="usuarioAprovacao">
+            <th mat-header-cell *matHeaderCellDef> Usuário Aprovação </th>
+            <td mat-cell *matCellDef="let element"> {{element.usuarioAprovacao || '-'}} </td>
+        </ng-container>
+
+        <!-- Situação Lote -->
+        <ng-container matColumnDef="situacaoLote">
+            <th mat-header-cell *matHeaderCellDef> Situação Lote </th>
+            <td mat-cell *matCellDef="let element"> {{element.situacaoLote}} </td>
+        </ng-container>
+
+        <!-- Data/Hora Situação Lote -->
+        <ng-container matColumnDef="dataHoraSituacaoLote">
+            <th mat-header-cell *matHeaderCellDef> Data/Hora Situação </th>
+            <td mat-cell *matCellDef="let element"> {{element.dataHoraSituacaoLote | date:'dd/MM/yyyy, HH:mm:ss'}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunas; sticky: true"></tr>
+        <!-- Adicionando classe condicional para destacar a linha selecionada -->
+        <tr mat-row *matRowDef="let row; columns: colunas;" (click)="alternarLinha(row)"
+            [class.linha-selecionada]="selecao.isSelected(row)">
+        </tr>
+    </table>
+
+    <!-- Paginação (primeira, anterior, número, próxima, última)[cite: 1] -->
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selecione a página de lotes">
+    </mat-paginator>
+</div>
